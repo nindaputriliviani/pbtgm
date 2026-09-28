@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pendaftaran Ekstrakurikuler</title>
+  <meta name="description" content="Formulir pendaftaran ekstrakurikuler sekolah dengan asisten chatbot.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#regForm">Lewati ke formulir</a>
+
+  <div class="layout">
+
+    <!-- ================= KOLOM KIRI: FORMULIR ================= -->
+    <main class="main">
+      <header class="masthead">
+        <p class="school">
+          <span class="school-mark" id="schoolMark" aria-hidden="true">SN</span>
+          <span id="schoolName">SMK N TENGARAN</span>
+        </p>
+        <h1>Mau ikut ekskul apa semester ini?</h1>
+        <p class="lead">
+          Pendaftaran ekstrakurikuler tahun ajaran <span id="tahunAjaran"></span>.
+          Isi formulir di bawah, atau tanya Chatbot di samping kalau masih bingung memilih.
+        </p>
+        <dl class="facts">
+          <div><dt>Batas pendaftaran</dt><dd id="factDeadline"></dd></div>
+          <div><dt>Boleh ikut</dt><dd id="factMaks"></dd></div>
+          <div><dt>Biaya</dt><dd id="factBiaya"></dd></div>
+        </dl>
+      </header>
+
+      <form id="regForm" novalidate>
+
+        <div class="progress">
+          <div class="progress-top">
+            <span id="progressLabel">0 dari 12 kolom wajib terisi</span>
+            <span id="progressPct">0%</span>
+          </div>
+          <div class="track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-labelledby="progressLabel">
+            <i id="progressBar"></i>
+          </div>
+        </div>
+
+        <!-- ---------- Data diri ---------- -->
+        <section class="panel" aria-labelledby="h-diri">
+          <h2 id="h-diri">Data diri</h2>
+          <div class="grid">
+
+            <div class="field span-2" data-field="nama">
+              <label for="nama">Nama lengkap</label>
+              <input id="nama" name="nama" type="text" autocomplete="name" placeholder="Sesuai data di rapor" aria-describedby="err-nama">
+              <small class="err" id="err-nama" aria-live="polite"></small>
+            </div>
+
+            <div class="field" data-field="nis">
+              <label for="nis">NIS</label>
+              <input id="nis" name="nis" type="text" inputmode="numeric" autocomplete="off" placeholder="Contoh: 2026123456" aria-describedby="err-nis">
+              <small class="err" id="err-nis" aria-live="polite"></small>
+            </div>
+
+            <div class="field" data-field="gender" role="radiogroup" aria-labelledby="lbl-gender">
+              <span class="label" id="lbl-gender">Jenis kelamin</span>
+              <div class="seg">
+                <label><input type="radio" name="gender" value="Laki-laki"><span>Laki-laki</span></label>
+                <label><input type="radio" name="gender" value="Perempuan"><span>Perempuan</span></label>
+              </div>
+              <small class="err" id="err-gender" aria-live="polite"></small>
+            </div>
+
+            <div class="field" data-field="kelas">
+              <label for="kelas">Tingkat kelas</label>
+              <select id="kelas" name="kelas" aria-describedby="err-kelas">
+                <option value="">Pilih tingkat</option>
+                <option value="X">X</option>
+                <option value="XI">XI</option>
+                <option value="XII">XII</option>
+              </select>
+              <small class="err" id="err-kelas" aria-live="polite"></small>
+            </div>
+
+            <div class="field" data-field="rombel">
+              <label for="rombel">Jurusan atau rombel</label>
+              <input id="rombel" name="rombel" type="text" autocomplete="off" placeholder="Contoh: IPA 2" aria-describedby="err-rombel">
+              <small class="err" id="err-rombel" aria-live="polite"></small>
+            </div>
+
+            <div class="field" data-field="lahir">
+              <label for="lahir">Tanggal lahir</label>
+              <input id="lahir" name="lahir" type="date" autocomplete="bday" aria-describedby="err-lahir">
+              <small class="err" id="err-lahir" aria-live="polite"></small>
+            </div>
+
+            <div class="field" data-field="wa">
+              <label for="wa">Nomor WhatsApp</label>
+              <input id="wa" name="wa" type="tel" inputmode="tel" autocomplete="tel" placeholder="0812 3456 7890" aria-describedby="err-wa">
+              <small class="err" id="err-wa" aria-live="polite"></small>
+            </div>
+
+            <div class="field span-2" data-field="email">
+              <label for="email">Email <span class="opt">opsional</span></label>
+              <input id="email" name="email" type="email" autocomplete="email" placeholder="nama@email.com" aria-describedby="err-email">
+              <small class="err" id="err-email" aria-live="polite"></small>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ---------- Pilihan ekskul ---------- -->
+        <section class="panel" aria-labelledby="h-ekskul">
+          <h2 id="h-ekskul">Pilihan ekskul</h2>
+          <p class="hint">Pilih satu ekskul utama. Garis di tiap kartu menunjukkan kuota yang sudah terisi.</p>
+
+          <div class="field" data-field="pilihan1" role="radiogroup" aria-labelledby="lbl-p1">
+            <span class="label" id="lbl-p1">Ekskul pilihan utama</span>
+            <div class="tiles" id="ekskulGrid"></div>
+            <small class="err" id="err-pilihan1" aria-live="polite"></small>
+          </div>
+
+          <div class="grid grid-gap-top">
+            <div class="field span-2" data-field="pilihan2">
+              <label for="pilihan2">Ekskul pilihan kedua <span class="opt">opsional</span></label>
+              <select id="pilihan2" name="pilihan2" aria-describedby="hintPilihan2 err-pilihan2"></select>
+              <small class="hint-inline" id="hintPilihan2">Opsional. Boleh dikosongkan.</small>
+              <small class="err" id="err-pilihan2" aria-live="polite"></small>
+            </div>
+
+            <div class="field span-2" data-field="alasan">
+              <label for="alasan">Kenapa kamu ingin ikut ekskul pilihan utama?</label>
+              <textarea id="alasan" name="alasan" rows="4" maxlength="300" placeholder="Ceritakan singkat minat atau tujuanmu." aria-describedby="err-alasan alasanCount"></textarea>
+              <div class="row-meta">
+                <small class="err" id="err-alasan" aria-live="polite"></small>
+                <small class="count" id="alasanCount">0/300</small>
+              </div>
+            </div>
+
+            <div class="field span-2" data-field="pengalaman">
+              <label for="pengalaman">Pengalaman sebelumnya <span class="opt">opsional</span></label>
+              <textarea id="pengalaman" name="pengalaman" rows="3" maxlength="300" placeholder="Misalnya pernah ikut lomba, kursus, atau ekskul di SMP."></textarea>
+              <small class="err" id="err-pengalaman"></small>
+            </div>
+          </div>
+        </section>
+
+        <!-- ---------- Orang tua / wali ---------- -->
+        <section class="panel" aria-labelledby="h-wali">
+          <h2 id="h-wali">Orang tua atau wali</h2>
+          <div class="grid">
+
+            <div class="field" data-field="wali">
+              <label for="wali">Nama orang tua atau wali</label>
+              <input id="wali" name="wali" type="text" autocomplete="off" aria-describedby="err-wali">
+              <small class="err" id="err-wali" aria-live="polite"></small>
+            </div>
+
+            <div class="field" data-field="waliHp">
+              <label for="waliHp">Nomor HP orang tua atau wali</label>
+              <input id="waliHp" name="waliHp" type="tel" inputmode="tel" autocomplete="off" placeholder="0812 3456 7890" aria-describedby="err-waliHp">
+              <small class="err" id="err-waliHp" aria-live="polite"></small>
+            </div>
+
+            <div class="field span-2" data-field="kesehatan">
+              <label for="kesehatan">Catatan kesehatan <span class="opt">opsional</span></label>
+              <input id="kesehatan" name="kesehatan" type="text" maxlength="150" autocomplete="off" placeholder="Alergi, asma, atau kondisi lain yang perlu diketahui pembina">
+              <small class="err" id="err-kesehatan"></small>
+            </div>
+
+            <div class="field span-2" data-field="setuju">
+              <label class="check" for="setuju">
+                <input id="setuju" name="setuju" type="checkbox" aria-describedby="err-setuju">
+                <span>Data yang saya isi sudah benar, dan orang tua atau wali mengizinkan saya mengikuti ekskul di luar jam pelajaran.</span>
+              </label>
+              <small class="err" id="err-setuju" aria-live="polite"></small>
+            </div>
+
+          </div>
+        </section>
+
+        <div class="actions">
+          <button type="submit" class="btn btn-primary">Kirim pendaftaran</button>
+          <button type="reset" class="btn btn-ghost">Kosongkan formulir</button>
+          <p class="status" id="formStatus" role="status"></p>
+        </div>
+
+      </form>
+    </main>
+
+    <!-- ================= KOLOM KANAN: CHATBOT ================= -->
+    <aside class="chat" id="chat" aria-label="Asisten pendaftaran ekskul">
+      <header class="chat-head">
+        <span class="avatar" aria-hidden="true">E</span>
+        <div class="chat-title">
+          <strong>chatbot</strong>
+          <span class="chat-sub"><i class="dot" aria-hidden="true"></i>Asisten ekskul, siap membantu</span>
+        </div>
+        <button type="button" class="chat-close" id="chatClose" aria-label="Tutup chat">&times;</button>
+      </header>
+
+      <div class="chat-log" id="chatLog" role="log" aria-live="polite" aria-label="Percakapan dengan Kak Eka"></div>
+
+      <div class="chips" id="chips" aria-label="Pertanyaan cepat"></div>
+
+      <form class="chat-input" id="chatForm" autocomplete="off">
+        <label class="visually-hidden" for="chatText">Tulis pertanyaanmu</label>
+        <input id="chatText" type="text" maxlength="200" placeholder="Tanya soal ekskul…">
+        <button type="submit">Kirim</button>
+      </form>
+    </aside>
+
+  </div>
+
+  <!-- Tombol buka chat (tampil di layar kecil) -->
+  <button type="button" class="chat-fab" id="chatFab" aria-controls="chat" aria-expanded="false">
+    <span aria-hidden="true">💬</span> Tanya Kak Eka
+  </button>
+
+  <!-- ================= BUKTI PENDAFTARAN ================= -->
+  <dialog id="receipt" aria-labelledby="receiptTitle">
+    <div class="receipt-head">
+      <h2 id="receiptTitle">Pendaftaran berhasil</h2>
+      <p>Simpan nomor ini dan tunjukkan ke pembina di pertemuan pertama.</p>
+      <p class="receipt-no" id="rNo"></p>
+    </div>
+    <div class="receipt-body">
+      <dl class="rows">
+        <dt>Nama</dt><dd id="rNama"></dd>
+        <dt>NIS</dt><dd id="rNis"></dd>
+        <dt>Kelas</dt><dd id="rKelas"></dd>
+        <dt>Pilihan utama</dt><dd id="rP1"></dd>
+        <dt>Pilihan kedua</dt><dd id="rP2"></dd>
+        <dt>Waktu daftar</dt><dd id="rWaktu"></dd>
+      </dl>
+      <div class="receipt-actions">
+        <button type="button" class="btn btn-primary" id="btnPrint">Cetak bukti</button>
+        <button type="button" class="btn btn-ghost" id="btnClose">Daftarkan siswa lain</button>
+      </div>
+    </div>
+  </dialog>
+</body>
+</html>
